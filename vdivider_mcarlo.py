@@ -16,7 +16,7 @@ def write_csv(arr):
 	data = []
 
 	for i in range(len(arr)):
-		data.append({'n': i, 'vout': arr[i]})
+		data.append({'n': i + 1, 'vout': arr[i]})
 
 	with open('simulation.csv', 'w', newline='') as csvfile:
 		fieldnames = ['n', 'vout']
