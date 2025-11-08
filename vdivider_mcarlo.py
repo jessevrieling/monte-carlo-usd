@@ -27,16 +27,17 @@ def write_csv(arr):
 vin = 100
 r1_nom = 200
 r2_nom = 50
+rtolerance = 2.5
 
-stddevr1 = 5 / 100 * r1_nom / 3
-stddevr2 = 5 / 100 * r2_nom / 3
+stddevr1 = stddevr(r1, rtolerance)
+stddevr2 = stddevr(r2, rtolerance)
 
 print(f"resistance R1: {r1_nom} Ohm")
 print(f"resistance R2: {r2_nom} Ohm\n")
 print(f"stddev R1: {stddevr1}")
 print(f"stddev R2: {stddevr2}\n")
 
-vout = voltdivout(100, r1_nom, r2_nom, stddevr1, stddevr2, 10)
+vout = voltdivout(100, r1_nom, r2_nom, stddevr1, stddevr2, 10000)
 print("creating csv...")
 write_csv(vout)
 print("done");
