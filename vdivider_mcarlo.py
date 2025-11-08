@@ -33,9 +33,8 @@ stddevr1 = stddevr(r1, rtolerance)
 stddevr2 = stddevr(r2, rtolerance)
 
 print(f"resistance R1: {r1_nom} Ohm")
-print(f"resistance R2: {r2_nom} Ohm\n")
-print(f"stddev R1: {stddevr1}")
-print(f"stddev R2: {stddevr2}\n")
+print(f"resistance R2: {r2_nom} Ohm")
+print(f"tolerance: {rtolerance}%\n");
 
 vout = voltdivout(100, r1_nom, r2_nom, stddevr1, stddevr2, 10000)
 print("creating csv...")
