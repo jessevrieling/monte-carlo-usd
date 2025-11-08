@@ -29,8 +29,8 @@ r1_nom = 200
 r2_nom = 50
 rtolerance = 2.5
 
-stddevr1 = stddevr(r1, rtolerance)
-stddevr2 = stddevr(r2, rtolerance)
+stddevr1 = ru.stddevr(r1_nom, rtolerance)
+stddevr2 = ru.stddevr(r2_nom, rtolerance)
 
 print(f"resistance R1: {r1_nom} Ohm")
 print(f"resistance R2: {r2_nom} Ohm")
