@@ -8,7 +8,7 @@ vout_nom = 20
 r1_nom = 200
 r2_nom = 50
 rtol = 5
-tol_des = 0.5 #+- 0.5v of nominal
+tol_des = 1 #+- 1v of nominal
 cp_desired = 2
 
 print(f"resistance R1: {r1_nom} Ohm")
@@ -28,8 +28,10 @@ def simulate(vin, vout_nom, r1_nom, r2_nom, tol_des, cp_desired, rtol, n_sample,
 		#process is centralized so we can use the same p factor on r1 and r2
 		stddevr1 *= p_factor
 		stddevr2 *= p_factor
-		rtol = stat_util.percstddev(r1_nom, stddevr1)
+		rtol = stat_util.percstddev(r2_nom, stddevr2)
 
+	print(f"samples: {n_sample}")
+	print(f"runs: {n_run}");
 	print(f"cp achieved: {cp_achieved}")
 
 	return rtol
