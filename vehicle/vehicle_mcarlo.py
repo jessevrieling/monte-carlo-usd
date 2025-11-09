@@ -40,8 +40,15 @@ def move_to_end():
 
 	# apply every motion in the pattern to the position
 	for motion in pattern:
-		forward = stat_util.randnorm(motion[0], stddev_pos);
-		pos = (pos[0] + forward * np.cos(np.deg2rad(direction)), pos[1] + forward * np.sin(np.deg2rad(direction)))
+		scalar = stat_util.randnorm(motion[0], stddev_pos);
+
+		x_cur = pos[0]
+		y_cur = pos[1]
+		
+		x_new = pos[0] + scalar * np.cos(np.deg2rad(direction))
+		y_new = pos[1] + scalar * np.sin(np.deg2rad(direction))
+
+		pos = (x_new, y_new)
 		direction += stat_util.randnorm(motion[1], stddev_dir)
 
 	return pos
