@@ -2,6 +2,7 @@ import csv
 import v_util
 import stat_util
 import statistics
+import time
 
 vin = 100
 vout_nom = 20
@@ -35,7 +36,8 @@ def simulate(vin, vout_nom, r1_nom, r2_nom, tol_des, cp_desired, rtol, n_sample,
 	print(f"cp achieved: {cp_achieved}")
 
 	return rtol
+start_time = time.time()
+tol_perc = simulate(vin, vout_nom, r1_nom, r2_nom, tol_des, cp_desired, rtol, 10000, 1000);
 
-tol_perc = simulate(vin, vout_nom, r1_nom, r2_nom, tol_des, cp_desired, rtol, 1000, 1000);
-
-print(f"tolerance percentage: {tol_perc}")
+print(f"tolerance percentage: {tol_perc}\n")
+print("simulation took %.2f seconds" % (time.time() - start_time))
