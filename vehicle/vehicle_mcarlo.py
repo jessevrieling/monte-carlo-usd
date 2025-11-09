@@ -24,7 +24,7 @@ def write_csv(arr):
 		data = []
 
 		for i in range(len(arr)):
-			data.append({'n': i + 1, 'x': arr[i][0] 'y': arr[i][1]})
+			data.append({'n': i + 1, 'x': arr[i][0], 'y': arr[i][1]})
 
 		with open('simulation.csv', 'w', newline='') as csvfile:
 			fieldnames = ['n', 'x', 'y']
@@ -52,3 +52,5 @@ def simulate(n):
 		positions.append(move_to_end())
 
 	write_csv(positions)
+
+simulate(1000)
