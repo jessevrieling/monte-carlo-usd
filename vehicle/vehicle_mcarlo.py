@@ -1,4 +1,5 @@
 import csv
+import math
 import numpy as np
 import stat_util
 
@@ -25,10 +26,10 @@ def write_csv(arr):
 		data = []
 
 		for i in range(len(arr)):
-			data.append({'n': i + 1, 'x': arr[i][0], 'y': arr[i][1]})
+			data.append({'n': i + 1, 'd_nom': arr[i]})
 
 		with open('simulation.csv', 'w', newline='') as csvfile:
-			fieldnames = ['n', 'x', 'y']
+			fieldnames = ['n', 'd_nom']
 			writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
 			writer.writeheader()
 			writer.writerows(data)
@@ -44,7 +45,7 @@ def move_to_end():
 
 		x_cur = pos[0]
 		y_cur = pos[1]
-		
+
 		x_new = pos[0] + scalar * np.cos(np.deg2rad(direction))
 		y_new = pos[1] + scalar * np.sin(np.deg2rad(direction))
 
@@ -54,11 +55,11 @@ def move_to_end():
 	return pos
 
 def simulate(n):
-	positions = []
+	distances = []
 
 	for i in range(n):
-		positions.append(move_to_end())
+		distances.append(math.dist(move_to_end(), (0, 7)))
 
-	write_csv(positions)
+	write_csv(distances)
 
 simulate(1000)
