@@ -24,10 +24,10 @@ def write_csv(arr):
 		data = []
 
 		for i in range(len(arr)):
-			data.append({'n': i + 1, 'end_pos': arr[i]})
+			data.append({'n': i + 1, 'x': arr[i][0] 'y': arr[i][1]})
 
 		with open('simulation.csv', 'w', newline='') as csvfile:
-			fieldnames = ['n', 'end_pos']
+			fieldnames = ['n', 'x', 'y']
 			writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
 			writer.writeheader()
 			writer.writerows(data)
@@ -45,6 +45,10 @@ def move_to_end():
 
 	return pos
 
-move_to_end()
-
 def simulate(n):
+	positions = []
+
+	for i in range(n):
+		positions.append(move_to_end())
+
+	write_csv(positions)
