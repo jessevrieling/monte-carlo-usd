@@ -1,42 +1,39 @@
 import csv
-import res_util as ru
-
-def voltdivout(vin, r1_nom, r2_nom, stddevr1, stddevr2, n):
-	vout = []
-
-	for i in range(n):
-		r1 = ru.randrnorm(r1_nom, stddevr1)
-		r2 = ru.randrnorm(r2_nom, stddevr2)
-
-		vout.append(ru.vdivout(vin, r1, r2))
-
-	return vout
-
-def write_csv(arr):
-	data = []
-
-	for i in range(len(arr)):
-		data.append({'n': i + 1, 'vout': arr[i]})
-
-	with open('simulation.csv', 'w', newline='') as csvfile:
-		fieldnames = ['n', 'vout']
-		writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
-		writer.writeheader()
-		writer.writerows(data)
+import v_util
+import stat_util
+import statistics
 
 vin = 100
+vout_nom = 20
 r1_nom = 200
 r2_nom = 50
-rtolerance = 2.5
-
-stddevr1 = ru.stddevr(r1_nom, rtolerance)
-stddevr2 = ru.stddevr(r2_nom, rtolerance)
+rtol = 5
+tol_des = 0.5 #+- 0.5v of nominal
+cp_desired = 2
 
 print(f"resistance R1: {r1_nom} Ohm")
-print(f"resistance R2: {r2_nom} Ohm")
-print(f"tolerance: {rtolerance}%\n");
+print(f"resistance R2: {r2_nom} Ohm\n")
 
-vout = voltdivout(100, r1_nom, r2_nom, stddevr1, stddevr2, 10000)
-print("creating csv...")
-write_csv(vout)
-print("done");
+def simulate(vin, vout_nom, r1_nom, r2_nom, tol_des, cp_desired, rtol, n_sample, n_run):
+	cp_achieved = 0
+	stddevr1 = stat_util.stddevr(r1_nom, rtol)
+	stddevr2 = stat_util.stddevr(r2_nom, rtol)
+
+	for i in range(n_run):
+		vout = v_util.voltdivout(vin, r1_nom, r2_nom, stddevr1, stddevr2, n_sample)
+		stddev_vout = statistics.stdev(vout)
+		cp_achieved = stat_util.cp(tol_des, stddev_vout)
+		p_factor = stat_util.p_factor(cp_achieved, cp_desired)
+		
+		#process is centralized so we can use the same p factor on r1 and r2
+		stddevr1 *= p_factor
+		stddevr2 *= p_factor
+		rtol = stat_util.percstddev(r1_nom, stddevr1)
+
+	print(f"cp achieved: {cp_achieved}")
+
+	return rtol
+
+tol_perc = simulate(vin, vout_nom, r1_nom, r2_nom, tol_des, cp_desired, rtol, 1000, 1000);
+
+print(f"tolerance percentage: {tol_perc}")
