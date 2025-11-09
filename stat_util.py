@@ -6,5 +6,5 @@ def stddevr(r, tolerance):
 def randrnorm(r, stddev):
 	return np.random.normal(loc=r, scale=stddev, size=1)[0]
 
-def cp(usl, lsl, stddev):
+def cp(lsl, usl, stddev):
 	return (usl - lsl) / (6 * stddev)
